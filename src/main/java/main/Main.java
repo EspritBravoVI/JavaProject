@@ -1,4 +1,4 @@
-package org.app;
+package main;
 
 public class Main {
 
