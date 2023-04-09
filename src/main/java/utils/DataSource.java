@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 public class DataSource {
   //DB PARAM
-  static final String URL ="jdbc:mysql://localhost:3306/app";
+  static final String URL ="jdbc:mysql://localhost:3306/test";
   static final String USER ="root";
   static final String PASSWORD ="";
   //var
@@ -38,8 +38,7 @@ public class DataSource {
   }
   public static void main(String[] args) {
 
-    Connection connection1=DataSource.getInstance().getCnx();
-
+    Connection connection=DataSource.getInstance().getCnx();
   }
 
 }
