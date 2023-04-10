@@ -27,24 +27,25 @@ public class UserService {
     return false;
   }
 
-  public void updateUsername(String oldId, String newId) throws SQLException{
+  public void updateUsername(Integer oldId, String newUsername) throws SQLException{
     sst = conn.createStatement();
-    String sql = "update user set id = '" + newId + "' where id = '" + oldId + "'";
+    String sql = "update user set username = '" + newUsername + "' where id = '" + oldId + "'";
     sst.executeUpdate(sql);
     sst.close();
   }
 
-  public void updatePassword(String newPassword, String username) throws SQLException{
+  public void updatePassword(String newPassword, Integer id) throws SQLException{
     Statement st = conn.createStatement();
-    String sql = "update user set pass = '" + newPassword + "' where id = '" + username + "'";
+    String sql = "update user set password = '" + newPassword + "' where id = '" + id + "'";
     st.executeUpdate(sql);
     st.close();
   }
 
-  public void deleteUser(String username) throws SQLException{
-    String sql = "delete from user where id = '" + username + "'";
+  public void deleteUser(Integer id) throws SQLException{
+    String sql = "delete from user where id = '" + id + "'";
     Statement st = conn.createStatement();
-    ResultSet r = st.executeQuery("select COUNT(*) from user where id = '"+username+"'");
+    ResultSet r = st.executeQuery("select COUNT(*) from user where id = '"+id+"'");
+    r.next();
     if (r.getInt(1)==0) {
       throw new SQLException("User Not Found!!");
     }
@@ -63,7 +64,10 @@ public class UserService {
   }
   public static void main(String[] args) throws SQLException {
     UserService userService = new UserService();
-    userService.addUser("anas","anas");
+    //userService.addUser("anas","anas");
+    //userService.deleteUser(Integer.valueOf(1));
+    //userService.updatePassword("hahahhaha",Integer.valueOf(2));
+    //userService.updateUsername(Integer.valueOf(4),"mou7a");
   }
 
 }

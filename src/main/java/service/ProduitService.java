@@ -22,10 +22,12 @@ public class ProduitService {
     add.executeUpdate();
     add.close();
   }
-  public void updateProduit(int newQte, String libelle, String newLibelle) throws SQLException{
-    PreparedStatement add = conn.prepareStatement("UPDATE produit SET quan=? WHERE libelle LIKE ?");
+  public void updateProduit(int newQte, Integer id, String newLibelle,String newCat) throws SQLException{
+    PreparedStatement add = conn.prepareStatement("UPDATE produit SET quantite=?,libelle=?,categorie=? WHERE id=?");
     add.setInt(1, newQte);
-    add.setString(2, libelle);
+    add.setString(2, newLibelle);
+    add.setString(3, newCat);
+    add.setInt(4, id);
     add.executeUpdate();
 
     add.close();
@@ -37,7 +39,7 @@ public class ProduitService {
     ArrayList<Produit> stocks = new ArrayList<>();
 
     while (rs.next()) {
-      Produit produit = new Produit(rs.getString("libelle"), "categorie", 0);
+      Produit produit = new Produit(rs.getString("libelle"),rs.getString("categorie"),rs.getInt("quantite"));
       stocks.add(produit);
     }
     rs.close();
@@ -47,7 +49,9 @@ public class ProduitService {
   }
   public static void main(String[] args) throws SQLException {
     ProduitService produitService = new ProduitService();
-    System.out.println(produitService.getProducts().get(0));
+    System.out.println(produitService.getProducts().get(0).getCategorie());
+    //produitService.addProduit("sun screen 50",Integer.valueOf(77),"visage");
+    //produitService.updateProduit(2,1,"loubya","bnina");
   }
 
 
