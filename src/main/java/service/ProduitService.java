@@ -13,6 +13,10 @@ public class ProduitService {
 
   public void addProduit(String libelle, int quantite,String categorie) throws SQLException {
 
+    //oral care, skin care, sun care, hair care, decorative cosmetics, body care and perfumes
+
+    //list deroulante front-end to choose from those 7 categories
+
     PreparedStatement add = conn.prepareStatement("INSERT INTO produit VALUES(NULL,?,?,?)");
 
     add.setString(1, libelle);
@@ -47,10 +51,63 @@ public class ProduitService {
 
     return stocks;
   }
+
+  public ArrayList<Produit> getProductsPerCategory(String cat) throws SQLException {
+
+
+    PreparedStatement ps = conn.prepareStatement("select * from produit where categorie=?");
+    ps.setString(1,cat);
+    ResultSet rs= ps.executeQuery();
+    ArrayList<Produit> stocks = new ArrayList<>();
+
+    while (rs.next()) {
+      Produit produit = new Produit(rs.getString("libelle"),rs.getString("categorie"),rs.getInt("quantite"));
+      stocks.add(produit);
+    }
+    rs.close();
+    ps.close();
+
+    return stocks;
+  }
+
+  public ArrayList<Produit> getProductsEnRuptureDeStock() throws SQLException {
+
+
+    PreparedStatement ps = conn.prepareStatement("select * from produit where quantite = 0");
+    ResultSet rs= ps.executeQuery();
+    ArrayList<Produit> stocks = new ArrayList<>();
+
+    while (rs.next()) {
+      Produit produit = new Produit(rs.getString("libelle"),rs.getString("categorie"),rs.getInt("quantite"));
+      stocks.add(produit);
+    }
+    rs.close();
+    ps.close();
+
+    return stocks;
+  }
+
+  public ArrayList<Produit> getProductsDisponible() throws SQLException {
+
+
+    PreparedStatement ps = conn.prepareStatement("select * from produit where quantite > 0");
+    ResultSet rs= ps.executeQuery();
+    ArrayList<Produit> stocks = new ArrayList<>();
+
+    while (rs.next()) {
+      Produit produit = new Produit(rs.getString("libelle"),rs.getString("categorie"),rs.getInt("quantite"));
+      stocks.add(produit);
+    }
+    rs.close();
+    ps.close();
+
+    return stocks;
+  }
   public static void main(String[] args) throws SQLException {
     ProduitService produitService = new ProduitService();
-    System.out.println(produitService.getProducts().get(0).getCategorie());
-    //produitService.addProduit("sun screen 50",Integer.valueOf(77),"visage");
+    produitService.addProduit("body screen 50",Integer.valueOf(2),"hair care");
+    System.out.println(produitService.getProductsPerCategory("hair care"));
+    System.out.println(produitService.getProductsEnRuptureDeStock());
     //produitService.updateProduit(2,1,"loubya","bnina");
   }
 
