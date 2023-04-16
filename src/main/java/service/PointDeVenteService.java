@@ -47,8 +47,8 @@ public class PointDeVenteService {
   }
   public static void main(String[] args) throws SQLException {
     PointDeVenteService pointDeVenteService = new PointDeVenteService();
-    pointDeVenteService.addProduit("Ariana");
-    pointDeVenteService.addProduit("Tunis");
+//    pointDeVenteService.addProduit("Ariana");
+//    pointDeVenteService.addProduit("Tunis");
     System.out.println(pointDeVenteService.getAllPointDeVente());
   }
 }
