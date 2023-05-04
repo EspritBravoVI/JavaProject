@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controllers;
+package controllers;
 
 import utils.DataSource;
 import javafx.animation.Animation;
@@ -126,7 +126,7 @@ public class MenuLoaderController implements Initializable {
     public void openPage(String path) throws IOException {
         Platform.runLater(() -> mainpan.getChildren().clear());
         Platform.runLater(() -> {
-                    fileurl = PreLoader.class.getResource(path);
+                   // fileurl = PreLoader.class.getResource(path);
                     FXMLLoader f = new FXMLLoader();
                     try {
                         view = FXMLLoader.load(fileurl);

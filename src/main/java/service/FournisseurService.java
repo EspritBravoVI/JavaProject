@@ -36,6 +36,16 @@ public class FournisseurService {
 
     add.close();
   }
+
+
+  public void deleteFournisseur(int id) throws SQLException{
+    PreparedStatement add = conn.prepareStatement("DELETE FROM fournisseur WHERE id=?");
+
+    add.setInt(1, id);
+    add.executeUpdate();
+    add.close();
+  }
+
   public ArrayList<Fournisseur> getAllFournisseur() throws SQLException {
 
     PreparedStatement ps = conn.prepareStatement("select * from fournisseur");
