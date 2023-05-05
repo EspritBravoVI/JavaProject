@@ -6,6 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import utils.DataSource;
 
 public class ProduitService {
@@ -36,6 +40,16 @@ public class ProduitService {
 
     add.close();
   }
+   public void deleteProduit(String des, String catg) throws SQLException{
+        PreparedStatement add = conn.prepareStatement("DELETE FROM produit WHERE libelle LIKE ? AND categorie LIKE ? ");
+
+        add.setString(1, des);
+        add.setString(2, catg);
+        add.executeUpdate();
+
+        add.close();
+    }
+
   public ArrayList<Produit> getProducts() throws SQLException {
 
     PreparedStatement ps = conn.prepareStatement("select * from produit");
@@ -52,11 +66,11 @@ public class ProduitService {
     return stocks;
   }
 
-  public ArrayList<Produit> getProductsPerCategory(String cat) throws SQLException {
+  public List<Produit> getProductsPerCategory(String cat) throws SQLException {
 
 
-    PreparedStatement ps = conn.prepareStatement("select * from produit where categorie=?");
-    ps.setString(1,cat);
+    PreparedStatement ps = conn.prepareStatement("select * from produit");
+    //ps.setString(1,cat);
     ResultSet rs= ps.executeQuery();
     ArrayList<Produit> stocks = new ArrayList<>();
 
@@ -64,16 +78,19 @@ public class ProduitService {
       Produit produit = new Produit(rs.getString("libelle"),rs.getString("categorie"),rs.getInt("quantite"));
       stocks.add(produit);
     }
+
     rs.close();
     ps.close();
 
-    return stocks;
+    List<Produit> filtred;
+    filtred = stocks.stream().filter(p -> p.getCategorie().equals(cat)).collect(Collectors.toList());
+    return filtred;
   }
 
-  public ArrayList<Produit> getProductsEnRuptureDeStock() throws SQLException {
+  public List<Produit> getProductsEnRuptureDeStock() throws SQLException {
 
 
-    PreparedStatement ps = conn.prepareStatement("select * from produit where quantite = 0");
+    PreparedStatement ps = conn.prepareStatement("select * from produit");
     ResultSet rs= ps.executeQuery();
     ArrayList<Produit> stocks = new ArrayList<>();
 
@@ -84,13 +101,16 @@ public class ProduitService {
     rs.close();
     ps.close();
 
-    return stocks;
+    List<Produit> filtred;
+    filtred = stocks.stream().filter(p -> p.getQuantite() == 0).collect(Collectors.toList());
+
+    return filtred;
   }
 
-  public ArrayList<Produit> getProductsDisponible() throws SQLException {
+  public List<Produit> getProductsDisponible() throws SQLException {
 
 
-    PreparedStatement ps = conn.prepareStatement("select * from produit where quantite > 0");
+    PreparedStatement ps = conn.prepareStatement("select * from produit");
     ResultSet rs= ps.executeQuery();
     ArrayList<Produit> stocks = new ArrayList<>();
 
@@ -101,14 +121,18 @@ public class ProduitService {
     rs.close();
     ps.close();
 
-    return stocks;
+    List<Produit> filtred;
+    filtred = stocks.stream().filter(p -> p.getQuantite() > 0).collect(Collectors.toList());
+
+    return filtred;
   }
   public static void main(String[] args) throws SQLException {
     ProduitService produitService = new ProduitService();
-    produitService.addProduit("body screen 50",Integer.valueOf(2),"hair care");
-    System.out.println(produitService.getProductsPerCategory("hair care"));
+    //produitService.addProduit("body screen 70",Integer.valueOf(5),"face care");
+    System.out.println(produitService.getProductsPerCategory("visage"));
+    //produitService.updateProduit(0,1,"loubya","bnina");
     System.out.println(produitService.getProductsEnRuptureDeStock());
-    //produitService.updateProduit(2,1,"loubya","bnina");
+    //System.out.println(produitService.getProductsDisponible());
   }
 
 
