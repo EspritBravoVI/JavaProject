@@ -106,7 +106,7 @@ public class FournisseurController  {
             try {
 
                 // inserer les donnees saisies dans la table usertbl en utilisant l'interface PreparedStatement
-                fournisseurService.addFournisseur(designation.getText(),Integer.parseInt(quantity.getText()), catcombo.getSelectionModel().getSelectedItem());
+               // fournisseurService.addFournisseur(designation.getText(),Integer.parseInt(quantity.getText()), catcombo.getSelectionModel().getSelectedItem());
                 
                 //afficher tous les elements de la base  + vider les champs + afficher un message
                 adderror.setText("Product Added ");
@@ -148,9 +148,9 @@ public class FournisseurController  {
                     try {
                         // delete product
 
-                        produitService.deleteProduit(iddes.getText(), idcat.getText());
+                    /*    produitService.deleteProduit(iddes.getText(), idcat.getText());
                         fournisseurService.deleteFournisseur
-                        deleteerror.setText("Fournisseur deleted ! ");
+                        deleteerror.setText("Fournisseur deleted ! ");*/
                         refresh();
                         iddes.setText("");
                         idcat.setText("");
