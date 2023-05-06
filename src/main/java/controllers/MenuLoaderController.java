@@ -126,10 +126,15 @@ public class MenuLoaderController implements Initializable {
     public void openPage(String path) throws IOException {
         Platform.runLater(() -> mainpan.getChildren().clear());
         Platform.runLater(() -> {
-                    fileurl = PreLoader.class.getResource(path);
-                    FXMLLoader f = new FXMLLoader();
+                 //   fileurl = PreLoader.class.getResource(path);
+                   FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+           
+                   // FXMLLoader f = new FXMLLoader();
                     try {
-                        view = FXMLLoader.load(fileurl);
+                       // view = FXMLLoader.load(fileurl);
+                        Parent root = loader.load();
+                        //Scene scene = retour1.getScene();
+                         //scene.setRoot(root); 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -249,7 +254,7 @@ public class MenuLoaderController implements Initializable {
 
     }
 
-    void pressed(MouseEvent event) {
+   /* void pressed(MouseEvent event) {
         Stage stage = (Stage) mainanch.getScene().getWindow();
         Parent root = mainanch.getScene().getRoot();
 
@@ -266,7 +271,7 @@ public class MenuLoaderController implements Initializable {
         stage.setY(event.getScreenY() - yOffset);
 
 
-    }
+    }*/
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
